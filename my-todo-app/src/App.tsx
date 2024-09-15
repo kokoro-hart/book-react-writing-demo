@@ -1,34 +1,32 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
-import "./App.css";
+import { TaskItem } from "./components/TaskItem";
+import { CreateTaskForm } from "./components/CreateTaskForm";
+
+import { useTaskList } from "./hooks/useTaskList";
 
 function App() {
-  const [count, setCount] = useState(0);
+  const { taskList, handleCreate, handleUpdate, handleDelete } = useTaskList();
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <main className="mx-auto mt-10 max-w-xl space-y-10">
+      <h1 className="text-center text-4xl">Todoアプリ</h1>
+      <div className="space-y-5">
+        <CreateTaskForm onSubmit={handleCreate} />
+        <div className="space-y-5 rounded bg-slate-100 p-5">
+          {taskList.length === 0 && (
+            <p className="text-center text-sm">タスクがありません</p>
+          )}
+          {taskList.map((task) => (
+            <TaskItem
+              key={task.id}
+              task={task}
+              onChangeCheckBox={handleUpdate}
+              onChangeInput={handleUpdate}
+              onDelete={handleDelete}
+            />
+          ))}
+        </div>
       </div>
-      <h1 className="border bg-slate-500 text-red-100">Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    </main>
   );
 }
 
