@@ -4,7 +4,13 @@ import { CreateTaskForm } from "./components/CreateTaskForm";
 import { useTaskList } from "./hooks/useTaskList";
 
 function App() {
-  const { taskList, handleCreate, handleUpdate, handleDelete } = useTaskList();
+  const {
+    taskList,
+    handleCreate,
+    handleUpdate,
+    handleDelete,
+    handleDeleteAllCompleted,
+  } = useTaskList();
 
   return (
     <main className="mx-auto mt-10 max-w-xl space-y-10">
@@ -26,6 +32,16 @@ function App() {
           ))}
         </div>
       </div>
+      {taskList.some((task) => task.completed) && (
+        <div className="flex justify-end">
+          <button
+            onClick={handleDeleteAllCompleted}
+            className="rounded-md p-2 text-sm text-red-500 transition-colors hover:bg-red-50"
+          >
+            完了済みのタスクをすべて削除
+          </button>
+        </div>
+      )}
     </main>
   );
 }

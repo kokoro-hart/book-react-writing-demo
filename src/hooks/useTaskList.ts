@@ -40,10 +40,17 @@ export const useTaskList = () => {
     });
   }, []);
 
+  const handleDeleteAllCompleted = useCallback(() => {
+    setTaskList((prevTaskList) => {
+      return prevTaskList.filter((todo) => !todo.completed);
+    });
+  }, []);
+
   return {
     taskList,
     handleCreate,
     handleUpdate,
     handleDelete,
+    handleDeleteAllCompleted,
   };
 };
