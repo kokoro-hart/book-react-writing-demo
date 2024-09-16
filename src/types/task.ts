@@ -1,5 +1,5 @@
 export type Task = {
   id: number;
   title: string;
-  completed: boolean;
+  status: "notStarted" | "completed" | "trashed";
 };

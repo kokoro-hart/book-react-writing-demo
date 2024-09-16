@@ -28,7 +28,7 @@ export const CreateTaskForm = memo(({ onSubmit }: Props) => {
         type="submit"
         className="rounded-e bg-blue-600 p-2 transition-colors hover:bg-blue-800 disabled:cursor-not-allowed disabled:bg-gray-400"
         disabled={!inputValue.trim()}
-        aria-label={`タスク「${inputValue}」を追加する`}
+        aria-label={`タスク「${inputValue}」を作成する`}
       >
         <Plus className="text-white" />
       </button>
