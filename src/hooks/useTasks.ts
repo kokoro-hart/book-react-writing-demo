@@ -21,7 +21,7 @@ export const useTasks = () => {
   }, [taskList]);
 
   // タスクを作成する
-  const handleCreate = useCallback((title: Task["title"]) => {
+  const createTask = useCallback((title: Task["title"]) => {
     setTaskList((prevTodoList) => {
       const newTask: Task = {
         id: Date.now(),
@@ -33,7 +33,7 @@ export const useTasks = () => {
   }, []);
 
   // タスクを更新する
-  const handleUpdate = useCallback(
+  const updateTask = useCallback(
     (id: Task["id"], updatedTask: Partial<Task>) => {
       setTaskList((prevTaskList) => {
         return prevTaskList.map((task) =>
@@ -45,14 +45,14 @@ export const useTasks = () => {
   );
 
   // タスクを削除する
-  const handleDelete = useCallback((id: Task["id"]) => {
+  const deleteTask = useCallback((id: Task["id"]) => {
     setTaskList((prevTaskList) => {
       return prevTaskList.filter((task) => task.id !== id);
     });
   }, []);
 
   // 完了済みタスクを全てにゴミ箱に変更する
-  const handleTrashedAllCompleted = useCallback(() => {
+  const trashedAllCompletedTasks = useCallback(() => {
     setTaskList((prevTaskList) => {
       return prevTaskList.map((task) =>
         task.status === "completed" ? { ...task, status: "trashed" } : task,
@@ -61,7 +61,7 @@ export const useTasks = () => {
   }, []);
 
   // ゴミ箱のタスクを全て削除する
-  const handleDeleteAllTrashed = useCallback(() => {
+  const deleteAllTrashedTasks = useCallback(() => {
     setTaskList((prevTaskList) => {
       return prevTaskList.filter((task) => task.status !== "trashed");
     });
@@ -70,10 +70,10 @@ export const useTasks = () => {
   return {
     activeTaskList,
     trashedTaskList,
-    handleCreate,
-    handleUpdate,
-    handleDelete,
-    handleTrashedAllCompleted,
-    handleDeleteAllTrashed,
+    createTask,
+    updateTask,
+    deleteTask,
+    trashedAllCompletedTasks,
+    deleteAllTrashedTasks,
   };
 };
