@@ -20,7 +20,7 @@ export function TrashedTaskList() {
       </div>
       <div className="space-y-3 px-10 pb-10">
         {trashedTaskList.length === 0 && (
-          <p className="text-center text-sm">ゴミ箱にタスクはありません</p>
+          <p className="text-center text-sm">ゴミ箱にタスクがありません</p>
         )}
         {trashedTaskList.map((task) => (
           <TrashedTaskItem
