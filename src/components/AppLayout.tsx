@@ -25,7 +25,7 @@ const linkVariants = cva("flex items-center gap-2 rounded px-5 py-3", {
   },
 });
 
-export const AppLayout = ({ children }: PropsWithChildren) => {
+export function AppLayout({ children }: PropsWithChildren) {
   const { pathname } = useLocation();
   return (
     <div className="flex min-h-screen">
@@ -52,4 +52,4 @@ export const AppLayout = ({ children }: PropsWithChildren) => {
       </main>
     </div>
   );
-};
+}

@@ -7,7 +7,7 @@ type Props = {
   onDelete: (id: Task["id"]) => void;
 };
 
-export const TrashedTaskItem = ({ task, onRestore, onDelete }: Props) => {
+export function TrashedTaskItem({ task, onRestore, onDelete }: Props) {
   return (
     <div className="flex items-center justify-between gap-3 rounded bg-slate-200 px-4 py-2">
       <p>{task.title}</p>
@@ -35,4 +35,4 @@ export const TrashedTaskItem = ({ task, onRestore, onDelete }: Props) => {
       </div>
     </div>
   );
-};
+}

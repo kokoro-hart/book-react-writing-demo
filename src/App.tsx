@@ -12,10 +12,12 @@ const router = createBrowserRouter([
     ),
     children: [
       {
+        // タスク一覧画面
         path: "/",
         element: <TaskList />,
       },
       {
+        // ゴミ箱画面
         path: "/trash",
         element: <TrashedTaskList />,
       },

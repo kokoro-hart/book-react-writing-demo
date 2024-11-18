@@ -2,7 +2,7 @@ import { Trash2 } from "lucide-react";
 import { useTasks } from "../hooks/useTasks";
 import { TrashedTaskItem } from "./TrashedTaskItem";
 
-export const TrashedTaskList = () => {
+export function TrashedTaskList() {
   const { trashedTaskList, updateTask, deleteTask, deleteAllTrashedTasks } =
     useTasks();
 
@@ -33,4 +33,4 @@ export const TrashedTaskList = () => {
       </div>
     </div>
   );
-};
+}

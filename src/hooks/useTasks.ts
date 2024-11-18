@@ -1,71 +1,50 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
-
 import { Task } from "../types/task";
+import { useLocalStorageState } from "./useLocalStorageState";
 
 export const useTasks = () => {
-  const [taskList, setTaskList] = useState<Task[]>(() => {
-    const taskListStorage = localStorage.getItem("taskList");
-    return JSON.parse(taskListStorage ?? "[]");
-  });
+  // タスク一覧の状態を管理
+  const [taskList, setTaskList] = useLocalStorageState<Task[]>("taskList", []);
 
-  useEffect(() => {
-    localStorage.setItem("taskList", JSON.stringify(taskList));
-  }, [taskList]);
+  // ゴミ箱のタスクを除いたタスク一覧
+  const activeTaskList = taskList.filter(({ status }) => status !== "trashed");
 
-  const activeTaskList = useMemo(() => {
-    return taskList.filter(({ status }) => status !== "trashed");
-  }, [taskList]);
-
-  const trashedTaskList = useMemo(() => {
-    return taskList.filter(({ status }) => status === "trashed");
-  }, [taskList]);
+  // ゴミ箱のタスク一覧
+  const trashedTaskList = taskList.filter(({ status }) => status === "trashed");
 
   // タスクを作成する
-  const createTask = useCallback((title: Task["title"]) => {
-    setTaskList((prevTodoList) => {
+  const createTask = (title: Task["title"]) => {
+    setTaskList((prevTaskList) => {
       const newTask: Task = {
         id: Date.now(),
         title,
         status: "notStarted",
       };
-      return [...prevTodoList, newTask];
+      return [...prevTaskList, newTask];
     });
-  }, []);
+  };
 
   // タスクを更新する
-  const updateTask = useCallback(
-    (id: Task["id"], updatedTask: Partial<Task>) => {
-      setTaskList((prevTaskList) => {
-        return prevTaskList.map((task) =>
-          task.id === id ? { ...task, ...updatedTask } : task,
-        );
-      });
-    },
-    [],
-  );
+  const updateTask = (id: Task["id"], updatedTask: Partial<Task>) => {
+    setTaskList((prevTaskList) => {
+      return prevTaskList.map((task) =>
+        task.id === id ? { ...task, ...updatedTask } : task,
+      );
+    });
+  };
 
   // タスクを削除する
-  const deleteTask = useCallback((id: Task["id"]) => {
+  const deleteTask = (id: Task["id"]) => {
     setTaskList((prevTaskList) => {
       return prevTaskList.filter((task) => task.id !== id);
     });
-  }, []);
-
-  // 完了済みタスクを全てにゴミ箱に変更する
-  const trashedAllCompletedTasks = useCallback(() => {
-    setTaskList((prevTaskList) => {
-      return prevTaskList.map((task) =>
-        task.status === "completed" ? { ...task, status: "trashed" } : task,
-      );
-    });
-  }, []);
+  };
 
   // ゴミ箱のタスクを全て削除する
-  const deleteAllTrashedTasks = useCallback(() => {
+  const deleteAllTrashedTasks = () => {
     setTaskList((prevTaskList) => {
       return prevTaskList.filter((task) => task.status !== "trashed");
     });
-  }, []);
+  };
 
   return {
     activeTaskList,
@@ -73,7 +52,6 @@ export const useTasks = () => {
     createTask,
     updateTask,
     deleteTask,
-    trashedAllCompletedTasks,
     deleteAllTrashedTasks,
   };
 };

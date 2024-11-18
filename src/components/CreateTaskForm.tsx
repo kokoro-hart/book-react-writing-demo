@@ -1,39 +1,48 @@
-import { memo, useState } from "react";
 import { Plus } from "lucide-react";
 import { Task } from "../types/task";
+import { useRef } from "react";
 
 type Props = {
   onSubmit: (title: Task["title"]) => void;
 };
 
-export const CreateTaskForm = memo(({ onSubmit }: Props) => {
-  const [inputValue, setInputValue] = useState<string>("");
+export function CreateTaskForm({ onSubmit }: Props) {
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!inputRef.current) {
+      return;
+    }
+
+    // input の値を取得
+    const inputValue = inputRef.current?.value.trim();
+    if (!inputValue) {
+      return;
+    }
+
+    // タスクを作成
     onSubmit(inputValue);
-    setInputValue("");
+
+    // 入力値をリセット
+    inputRef.current.value = "";
   };
 
   return (
     <form className="flex gap-0.5" onSubmit={handleSubmit}>
       <input
+        ref={inputRef}
         type="text"
         placeholder="新しいタスクを入力してください"
         className="grow rounded-s border p-2"
-        value={inputValue}
-        onChange={(e) => setInputValue(e.target.value)}
       />
       <button
         type="submit"
         className="rounded-e bg-blue-600 p-2 transition-colors hover:bg-blue-800 disabled:cursor-not-allowed disabled:bg-gray-400"
-        disabled={!inputValue.trim()}
-        aria-label={`タスク「${inputValue}」を作成する`}
+        aria-label={"タスクを作成する"}
       >
         <Plus className="text-white" />
       </button>
     </form>
   );
-});
-
-CreateTaskForm.displayName = "CreateTaskForm";
+}
