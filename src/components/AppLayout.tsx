@@ -3,7 +3,7 @@ import { Trash2, BookCheck } from "lucide-react";
 import { PropsWithChildren } from "react";
 import { Link, useLocation } from "react-router-dom";
 
-const navigation = [
+const sideMenu = [
   {
     path: "/",
     label: "タスク一覧",
@@ -33,7 +33,7 @@ export function AppLayout({ children }: PropsWithChildren) {
         <h1 className="text-3xl">Todo App</h1>
         <nav>
           <ul className="flex flex-col gap-2">
-            {navigation.map(({ path, label, icon }) => (
+            {sideMenu.map(({ path, label, icon }) => (
               <li>
                 <Link
                   to={path}
